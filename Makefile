@@ -1,8 +1,8 @@
 COMPILE = cc -Wall -Wextra -Werror# -g
 
-NAME = placeholder
+NAME = so_long
 
-SRC = srcs/main.c #srcs
+SRC = srcs/so_long.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -65,7 +65,9 @@ libft/get_next_line_utils.c \
 
 OBJ_DEP = $(LIB_DEP:.c=.o)
 
-ALL_DEP = Makefile placeholder.h $(OBJ) $(LIB_DEP) $(OBJ_DEP) libft/Makefile
+ALL_DEP = Makefile so_long.h $(OBJ) $(LIB_DEP) $(OBJ_DEP) libft/Makefile
+
+MLX = libmlx42.a -Iinclude -ldl -lglfw -pthread -lm
 
 #=======================TO MAKE SURE MAKEFILE RECOMPILES=======================#
 
@@ -73,7 +75,7 @@ all: $(NAME)
 
 $(NAME): $(ALL_DEP)
 	@make all -C libft
-	@$(COMPILE) $(SRC) ./libft/libft.a -o $(NAME) 
+	@$(COMPILE) $(SRC) $(MLX) ./libft/libft.a -o $(NAME) 
 
 clean:
 	@make clean -C libft
