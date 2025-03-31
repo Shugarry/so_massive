@@ -68,7 +68,6 @@ void	check_map(t_game *game)
 {
 	int	i;
 	int	j;
-	t_conditions	conditions;
 
 	i = 0;
 	while (game->map[i])
@@ -76,25 +75,52 @@ void	check_map(t_game *game)
 		j = 0;
 		while (game->map[i][j])
 		{
-			if (game->map[i][j] != '0' || game->map[i][j] != '1')
-				;
-			else if (game->map[i][j] == 'C')
-				conditions;
-			else if (game->map[i][j] == 'E')
-					;
-			else if (game->map[i][j] == 'P')
-				;
-			else
-				free_exit(game, "Map is invalid");
-			j++;
-		}
-		i++;
-	}
+			if (game->map[i][j] == 'C')
+				game->stats.items += 1;
+			else if (game->map[i][j] == 'P' && game->stats.start == false)
+				game->stats.start = true;
+			else if (game->map[i][j] == 'E' && game->stats.exit == false)
+				game->stats.exit = true;
+			else if (game->map[i][j] != '0' || game->map[i][j] != '1')
+				free_exit(game, "Map is invalid"); j++; } i++; } } t_game	copy_game(t_game game)
+{
+	t_game	tmp;
+	int	i;
+
+	i = -1;
+	while (i++ < 30)
+		tmp.map[i] = ft_strdup(game.map[i]);
+	tmp.length = game.length;
+	tmp.height = game.height;
+	tmp.stats.start = game.stats.start;
+	tmp.stats.exit = game.stats.exit;
+	tmp.stats.items = game.stats.items;
+	return (tmp);
+}
+
+void	flood(t_game *game)
+{
+	flood ;
+}
+
+void	init_game(t_game *game)
+{
+	int	i;
+
+	i = -1;
+	while (i++ < 30)
+		game->map[i] = NULL;
+	game->length = 0;
+	game->height = 0;
+	game->stats.start = false;
+	game->stats.exit = false;
+	game->stats.items = 0;
 }
 
 int main(int ac, char **av)
 {
 	t_game game;
+	t_game cpy;
 	int	fd;
 
 	if (ac != 2 || !is_file_valid(av[1], &fd))
@@ -103,6 +129,10 @@ int main(int ac, char **av)
 		return (1);
 	}
 	parse_map(&game, fd);
+	check_borders(&game);
+	check_dimensions(&game);
 	check_map(&game);
+	cpy = copy_game(game);
+	flood(&cpy);
 	close(fd);
 }

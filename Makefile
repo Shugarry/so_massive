@@ -6,8 +6,20 @@ SRC = srcs/so_long.c
 
 OBJ = $(SRC:.c=.o)
 
+#==================================MINILIBX====================================#
+
+MLX42_DIR = ./MLX42
+
+MLX42 = build/libmlx42.a
+
+MLXFLAGS = -I./MLX42/include -ldl -lglfw -pthread -lm
+
+#==================================MINILIBX====================================#
+
+
 #=======================TO MAKE SURE MAKEFILE RECOMPILES=======================#
 
+# LIBFT files dependencies
 LIB_DEP = \
 libft/ft_atoi.c \
 libft/ft_bzero.c \
@@ -62,29 +74,35 @@ libft/ft_lstmap_bonus.c \
 libft/get_next_line_bonus.c \
 libft/get_next_line_utils_bonus.c \
 libft/get_next_line_utils.c \
+libft/libft.h \
+libft/get_next_line.h \
+libft/get_next_line_bonus.h \
+libft/ft_printf.h \
 
-OBJ_DEP = $(LIB_DEP:.c=.o)
+OBJ_DEP = $(LIB_DEP:.c=.o) #Dependencies for the objects
 
-ALL_DEP = Makefile so_long.h $(OBJ) $(LIB_DEP) $(OBJ_DEP) libft/Makefile
-
-MLX = libmlx42.a -Iinclude -ldl -lglfw -pthread -lm
-
+ALL_DEP = Makefile so_long.h $(OBJ) $(LIB_DEP) $(OBJ_DEP) libft/Makefile \
+		 
 #=======================TO MAKE SURE MAKEFILE RECOMPILES=======================#
 
 all: $(NAME)
 
 $(NAME): $(ALL_DEP)
 	@make all -C libft
-	@$(COMPILE) $(SRC) $(MLX) ./libft/libft.a -o $(NAME) 
+	@$(COMPILE) $(SRC) ./libft/libft.a $(MLX42) $(MLXFLAGS) -o $(NAME)
+
+$(MLX42):
+	@cmake $(MLX42_DIR) -B build
+	@cmake --build build -j4
 
 clean:
 	@make clean -C libft
 	@rm -f $(OBJ)
+	@echo 'all clean!! :)'
 
 fclean: clean
 	@make fclean -C libft
 	@rm -f $(NAME)
-	@echo 'all clean!! :)'
 
 re: fclean all
 
