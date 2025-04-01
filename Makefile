@@ -6,16 +6,19 @@
 #    By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/01 11:57:09 by frey-gal          #+#    #+#              #
-#    Updated: 2025/04/01 11:59:33 by frey-gal         ###   ########.fr        #
+#    Updated: 2025/04/01 17:42:38 by frey-gal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-COMPILE = cc -Wall -Wextra -Werror# -g
+COMPILE = cc #-Wall -Wextra -Werror# -g
 
 NAME = so_long
 
-SRC = srcs/so_long.c \
-	  srcs/error.c
+SRC = \
+srcs/so_long.c \
+srcs/error.c \
+srcs/parsing.c \
+srcs/validation.c \
 
 OBJ = $(SRC:.c=.o)
 
@@ -25,7 +28,7 @@ MLX42_DIR = ./MLX42
 
 MLX42 = build/libmlx42.a
 
-MLXFLAGS = -I./MLX42/include -ldl -lglfw -pthread -lm
+MLXFLAGS = -I ./MLX42/include -ldl -lglfw -pthread -lm
 
 #==================================MINILIBX====================================#
 
@@ -111,6 +114,7 @@ $(MLX42):
 clean:
 	@make clean -C libft
 	@rm -f $(OBJ)
+	@rm -rf build
 	@echo 'all clean!! :)'
 
 fclean: clean
