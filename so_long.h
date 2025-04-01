@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 11:57:00 by frey-gal          #+#    #+#             */
+/*   Updated: 2025/04/01 12:27:41 by frey-gal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SO_LONG_H
 # define SO_LONG_H
 # include "libft/libft.h"
@@ -7,6 +19,7 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <stdbool.h>
+# include <stdio.h>
 
 
 typedef struct s_stats
@@ -14,6 +27,7 @@ typedef struct s_stats
 	bool	start;
 	bool	exit;
 	int		items;
+	int		start_pos[2];
 }	t_stats;
 
 typedef struct s_game
@@ -22,10 +36,9 @@ typedef struct s_game
 	int				length;
 	int				height;
 	t_stats			stats;
-	int				start_pos[2];
 }	t_game;
 
 // freeing
-void	free_exit(t_game *game, char *error_msg);
+void	free_exit(t_game *game, char *error_msg, int status);
 
 #endif

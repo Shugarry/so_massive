@@ -1,8 +1,21 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/04/01 11:57:09 by frey-gal          #+#    #+#              #
+#    Updated: 2025/04/01 11:59:33 by frey-gal         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 COMPILE = cc -Wall -Wextra -Werror# -g
 
 NAME = so_long
 
-SRC = srcs/so_long.c
+SRC = srcs/so_long.c \
+	  srcs/error.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -87,7 +100,7 @@ ALL_DEP = Makefile so_long.h $(OBJ) $(LIB_DEP) $(OBJ_DEP) libft/Makefile \
 
 all: $(NAME)
 
-$(NAME): $(ALL_DEP)
+$(NAME): $(ALL_DEP) $(MLX42)
 	@make all -C libft
 	@$(COMPILE) $(SRC) ./libft/libft.a $(MLX42) $(MLXFLAGS) -o $(NAME)
 
