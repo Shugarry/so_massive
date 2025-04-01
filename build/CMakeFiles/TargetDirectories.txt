@@ -1,7 +1,0 @@
-/home/frey-gal/so_massive/build/CMakeFiles/mlx42.dir
-/home/frey-gal/so_massive/build/CMakeFiles/edit_cache.dir
-/home/frey-gal/so_massive/build/CMakeFiles/rebuild_cache.dir
-/home/frey-gal/so_massive/build/CMakeFiles/list_install_components.dir
-/home/frey-gal/so_massive/build/CMakeFiles/install.dir
-/home/frey-gal/so_massive/build/CMakeFiles/install/local.dir
-/home/frey-gal/so_massive/build/CMakeFiles/install/strip.dir
