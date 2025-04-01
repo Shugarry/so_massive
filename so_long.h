@@ -22,6 +22,7 @@ typedef struct s_game
 	int				length;
 	int				height;
 	t_stats			stats;
+	int				start_pos[2];
 }	t_game;
 
 // freeing

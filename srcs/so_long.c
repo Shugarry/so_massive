@@ -78,11 +78,22 @@ void	check_map(t_game *game)
 			if (game->map[i][j] == 'C')
 				game->stats.items += 1;
 			else if (game->map[i][j] == 'P' && game->stats.start == false)
+			{
 				game->stats.start = true;
+				game->start_pos[0] = i;
+				game->start_pos[1] = j;
+			}
 			else if (game->map[i][j] == 'E' && game->stats.exit == false)
 				game->stats.exit = true;
 			else if (game->map[i][j] != '0' || game->map[i][j] != '1')
-				free_exit(game, "Map is invalid"); j++; } i++; } } t_game	copy_game(t_game game)
+				free_exit(game, "Map is invalid");
+			j++;
+		}
+		i++;
+	}
+}
+
+t_game	copy_game(t_game game)
 {
 	t_game	tmp;
 	int	i;
@@ -98,9 +109,18 @@ void	check_map(t_game *game)
 	return (tmp);
 }
 
-void	flood(t_game *game)
+void	flood(int i, int j, t_game *game)
 {
-	flood ;
+	if (game->map[i][j] == '0' || game->map[i][j] == 'C'
+		||game->map[i][j] == 'E' ||game->map[i][j] == 'P')
+		game->map[i][j] = 'X';
+	if (game->map[i][j] == 'X')
+	{
+		flood(i + 1, j, game);
+		flood(i, j + 1, game);
+		flood(i - 1, j, game);
+		flood(i, j - 1, game);
+	}
 }
 
 void	init_game(t_game *game)
@@ -115,6 +135,8 @@ void	init_game(t_game *game)
 	game->stats.start = false;
 	game->stats.exit = false;
 	game->stats.items = 0;
+	game->start_pos[0] = 0;
+	game->start_pos[1] = 0;
 }
 
 int main(int ac, char **av)
@@ -133,6 +155,6 @@ int main(int ac, char **av)
 	check_dimensions(&game);
 	check_map(&game);
 	cpy = copy_game(game);
-	flood(&cpy);
+	flood(game.start_pos[0], game.start_pos[1], &cpy);
 	close(fd);
 }
