@@ -85,7 +85,7 @@ char	**copy_map(t_game *game)
 	int		i;
 
 	i = 0;
-	tmp = malloc(sizeof(char *) * game->height);
+	tmp = (char **)malloc(sizeof(char *) * (game->height + 1));
 	if (!tmp)
 		free_exit(game, "malloc failure", EXIT_FAILURE);
 	while (i < game->height)
@@ -99,6 +99,7 @@ char	**copy_map(t_game *game)
 			free(tmp);
 			free_exit(game, "malloc failure", EXIT_FAILURE);
 		}
+		
 		i++;
 	}
 	tmp[i] = NULL;

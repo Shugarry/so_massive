@@ -46,7 +46,7 @@ void	free_exit(t_game *game, char *error_msg, int status);
 void	free_map(t_game *game);
 // parsing.c
 void	parse_map(t_game *game, int fd);
-bool	is_file_valid(const char *file, int *fd);
+bool	is_file_valid(t_game *game, const char *file, int *fd);
 void	init_game(t_game *game);
 // validation.c
 bool	check_dimensions(t_game *game);

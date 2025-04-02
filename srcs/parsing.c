@@ -12,64 +12,54 @@
 
 #include "../so_long.h"
 
-static void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
-{
-	size_t	copy_size;
-	void	*new_ptr;
-
-	if (ptr == NULL)
-		return (malloc(new_size));
-	if (new_size == 0)
-	{
-		free(ptr);
-		return (NULL);
-	}
-	new_ptr = malloc(new_size);
-	if (new_ptr == NULL)
-		return (NULL);
-	if (old_size < new_size)
-		copy_size = old_size;
-	else
-		copy_size = new_size;
-	ft_memcpy(new_ptr, ptr, copy_size);
-	free(ptr);
-	return (new_ptr);
-}
-
 void	parse_map(t_game *game, int fd)
 {
+	char	*line;
+	char	**temp_map;
 	int		i;
-	char	*tmp;
 
+	game->map = (char **)malloc((game->height + 1) * sizeof(char *));
+	if (!game->map)
+		free_exit(game, "malloc fail", EXIT_FAILURE);
 	i = 0;
-	tmp = get_next_line(fd);
-	while (tmp != NULL)
+	line = get_next_line(fd);
+	while (line)
 	{
-		game->map = ft_realloc(game->map, i * PP_CHAR, (i + 1) * PP_CHAR);
-		if (game->map == NULL)
-			free_exit(game, "malloc failure", EXIT_FAILURE);
-		game->map[i] = ft_strtrim(tmp, "\n");
-		free(tmp);
-		if (game->map[i] == NULL)
-			free_exit(game, "malloc failure", EXIT_FAILURE);
+		if (line[ft_strlen(line) - 1] == '\n')
+			line[ft_strlen(line) - 1] = '\0';
+		game->map[i] = line;
 		i++;
-		tmp = get_next_line(fd);
+		line = get_next_line(fd);
 	}
 	game->map[i] = NULL;
-	game->height = i;
 	game->length = ft_strlen(game->map[0]);
 	close(fd);
 }
 
-bool	is_file_valid(const char *file, int *fd)
+bool	is_file_valid(t_game *game, const char *file, int *fd)
 {
 	char	*dot;
 	bool	valid;
+	char	*line;
 
 	*fd = open(file, O_RDONLY);
 	dot = ft_strrchr(file, '.');
 	if (*fd != -1)
 		valid = (dot && ft_strncmp(dot, ".ber", 4) == 0);
+	if (valid)
+	{
+		line = get_next_line(*fd);
+		while (line)
+		{
+			game->height++;
+			free(line);
+			line = get_next_line(*fd);
+		}
+	}
+	close(*fd);
+	*fd = open(file, O_RDONLY);
+	if (fd < 0)
+		valid = false;
 	return (valid);
 }
 

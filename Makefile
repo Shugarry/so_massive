@@ -6,11 +6,11 @@
 #    By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/01 11:57:09 by frey-gal          #+#    #+#              #
-#    Updated: 2025/04/01 17:42:38 by frey-gal         ###   ########.fr        #
+#    Updated: 2025/04/02 19:00:57 by frey-gal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-COMPILE = cc #-Wall -Wextra -Werror# -g
+COMPILE = cc -fsanitize=address #-Wall -Wextra -Werror# -g
 
 NAME = so_long
 

@@ -6,7 +6,7 @@
 /*   By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:57:16 by frey-gal          #+#    #+#             */
-/*   Updated: 2025/04/01 20:53:57 by frey-gal         ###   ########.fr       */
+/*   Updated: 2025/04/02 18:43:26 by frey-gal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,8 @@ void	free_exit(t_game *game, char *error_msg, int status)
 		mlx_terminate(game->mlx);
 	free_map(game);
 	if (status == EXIT_FAILURE)
-		ft_printf("Error");
+		ft_printf("Error: ");
 	if (error_msg)
-		ft_printf(": %s", error_msg);
-	ft_printf("\n");
+		ft_printf("%s\n", error_msg);
 	exit(status);
 }
