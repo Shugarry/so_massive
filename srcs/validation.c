@@ -17,11 +17,11 @@ bool	check_dimensions(t_game *game)
 	int	i;
 
 	i = 0;
-	if (game->height < 3 || game->length < 3) 
+	if (game->height < 3 || game->width < 3) 
 		free_exit(game, "Incorrect dimensions", EXIT_FAILURE);
 	while (game->map[i])
 	{
-		if (game->length != (int)ft_strlen(game->map[i]))
+		if (game->width != (int)ft_strlen(game->map[i]))
 			free_exit(game, "Incorrect dimensions", EXIT_FAILURE);
 		i++;
 	}
@@ -37,10 +37,10 @@ void	check_borders(t_game *game)
 	while (i < game->height - 1)
 	{
 		j = 0;
-		while (j < game->length - 1)
+		while (j < game->width - 1)
 		{
 			if (game->map[i][j] != '1' && ((i == game->height - 1)
-				|| (i == 0) || (j == game->length - 1) || (j == 0)))
+				|| (i == 0) || (j == game->width - 1) || (j == 0)))
 				free_exit(game, "Walls don't cover map", EXIT_FAILURE);
 			j++;
 		}
@@ -57,7 +57,7 @@ void	check_map(t_game *game)
 	while (i < game->height - 1)
 	{
 		j = 0;
-		while (j < game->length - 1)
+		while (j < game->width - 1)
 		{
 			if (game->map[i][j] == 'C')
 			{

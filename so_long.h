@@ -6,7 +6,7 @@
 /*   By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:57:00 by frey-gal          #+#    #+#             */
-/*   Updated: 2025/04/01 20:23:59 by frey-gal         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:30:17 by username         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,20 @@ typedef struct s_game
 {
 	char			**map;
 	mlx_t			*mlx;
-	int				length;
+	int				width;
 	int				height;
 	t_stats			stats;
 }	t_game;
+
+typedef struct s_textures
+{
+	mlx_image_t		*wall;
+	mlx_image_t		*floor;
+	mlx_image_t		*item;
+	mlx_image_t		*exit_a;
+	mlx_image_t		*exit_b;
+	mlx_image_t		*player;
+} t_textures;
 
 // error.c
 void	free_exit(t_game *game, char *error_msg, int status);

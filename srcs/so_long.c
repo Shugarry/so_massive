@@ -6,7 +6,7 @@
 /*   By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:56:44 by frey-gal          #+#    #+#             */
-/*   Updated: 2025/04/02 19:20:53 by frey-gal         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:33:28 by username         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,49 @@ static void	keys(void *param)
 
 void	draw_map(t_game *game)
 {
-	mlx_texture_t	*tile;
-	mlx_image_t		*img;
+	int	i;
+	int	j;
 
-	tile = mlx_load_png("textures/square.png");
-	img = mlx_texture_to_image(game->mlx, tile);
-	mlx_delete_texture(tile);
-	for (int i = 0; i < game->height; i++)
+
+	mlx_resize_image(w_img, 50, 50);
+	mlx_delete_texture(wall);
+	i = -1;
+	while (++i < game->width)
 	{
-		for (int j = 0; j < game->length; j++)
+		j = -1;
+		while (++j < game->width)
 		{
-
+			mlx_image_to_window(game->mlx, w_img, 50 * i, 50 * j);
 		}
 	}
-	mlx_image_to_window(game->mlx, img, 0, 0);
+}
+
+void	init_resources(t_game *game, t_textures *resources)
+{
+	mlx_texture_t	*tmp;
+
+	tmp = mlx_load_png("textures/wall.png");
+	resources->wall = mlx_new_image(game->mlx, 1, 1);
+	resources->wall = mlx_texture_to_image(game->mlx, tmp);
+	tmp = mlx_load_png("textures/wall.png");
+	resources->floor = mlx_new_image(game->mlx, 1, 1);
+	resources->floor = mlx_texture_to_image(game->mlx, tmp);
+	tmp = mlx_load_png("textures/wall.png");
+	resources->item = mlx_new_image(game->mlx, 1, 1);
+	resources->item = mlx_texture_to_image(game->mlx, tmp);
+	tmp = mlx_load_png("textures/wall.png");
+	resources->player = mlx_new_image(game->mlx, 1, 1);
+	resources->player = mlx_texture_to_image(game->mlx, tmp);
 }
 
 void	run(t_game *game)
 {
-	game->mlx = mlx_init(game->length * 100, game->height * 100, "so_long", false); // initialize window
+	t_textures	resources;
+
+	game->mlx = mlx_init(game->width * 50, game->height * 50, "so_long", false); // initialize window
 	if (!game->mlx)
 		free_exit(game, (char *)mlx_strerror(mlx_errno), EXIT_FAILURE); // the malloc can fail
+	init_resources(game, &resources);
 	draw_map(game);
 	mlx_loop_hook(game->mlx, keys, game);
 	mlx_loop(game->mlx); // main window loop

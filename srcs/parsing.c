@@ -15,7 +15,6 @@
 void	parse_map(t_game *game, int fd)
 {
 	char	*line;
-	char	**temp_map;
 	int		i;
 
 	game->map = (char **)malloc((game->height + 1) * sizeof(char *));
@@ -32,7 +31,7 @@ void	parse_map(t_game *game, int fd)
 		line = get_next_line(fd);
 	}
 	game->map[i] = NULL;
-	game->length = ft_strlen(game->map[0]);
+	game->width = ft_strlen(game->map[0]);
 	close(fd);
 }
 
@@ -42,6 +41,7 @@ bool	is_file_valid(t_game *game, const char *file, int *fd)
 	bool	valid;
 	char	*line;
 
+	valid = false;
 	*fd = open(file, O_RDONLY);
 	dot = ft_strrchr(file, '.');
 	if (*fd != -1)
@@ -56,19 +56,18 @@ bool	is_file_valid(t_game *game, const char *file, int *fd)
 			line = get_next_line(*fd);
 		}
 	}
-	close(*fd);
+	if (*fd != -1)
+		close(*fd);
 	*fd = open(file, O_RDONLY);
-	if (fd < 0)
+	if (*fd < 0)
 		valid = false;
 	return (valid);
 }
 
 void	init_game(t_game *game)
 {
-	int	i;
-
 	game->map = NULL;
-	game->length = 0;
+	game->width = 0;
 	game->height = 0;
 	game->stats.start = false;
 	game->stats.exit = false;
