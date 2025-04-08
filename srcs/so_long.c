@@ -12,6 +12,12 @@
 
 #include "../so_long.h"
 
+void p_map(t_game *game)
+{
+	for (int i = 0; i < game->height; i++)
+			printf("%s\n", game->map[i]);
+}
+
 static void	create_check_map(t_game *game, int *fd)
 {
 	char	**cpy;
@@ -49,57 +55,70 @@ static void	keys(void *param)
 		;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT)
 		|| mlx_is_key_down(game->mlx, MLX_KEY_D))
-		;*/
+		;
+	*/
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		free_exit(game, "Finished succesfully", EXIT_SUCCESS);
 }
 
-void	draw_map(t_game *game)
+void	draw_map(t_game *game, t_textures *resources)
 {
 	int	i;
 	int	j;
 
 
-	mlx_resize_image(w_img, 50, 50);
-	mlx_delete_texture(wall);
-	i = -1;
-	while (++i < game->width)
+	i = 0;
+	while (i < game->height)
 	{
-		j = -1;
-		while (++j < game->width)
+		j = 0;
+		printf("%s\n", game->map[i]);
+		while (j < game->width)
 		{
-			mlx_image_to_window(game->mlx, w_img, 50 * i, 50 * j);
+			mlx_image_to_window(game->mlx, resources->floor, PIXEL_SIZE * j, PIXEL_SIZE * i);
+			if (game->map[i][j] == '1')
+				mlx_image_to_window(game->mlx, resources->wall, PIXEL_SIZE * j, PIXEL_SIZE * i);
+			if (game->map[i][j] == 'C')
+				mlx_image_to_window(game->mlx, resources->item, PIXEL_SIZE * j, PIXEL_SIZE * i);
+			j++;
 		}
+		i++;
 	}
+}
+
+mlx_image_t	*add_image(mlx_t *mlx, const char *path, uint32_t width, uint32_t height)
+{
+	mlx_texture_t	*texture;
+	mlx_image_t		*image;
+
+	texture = mlx_load_png(path);
+	if (!texture)
+		return (NULL);
+	image = mlx_texture_to_image(mlx, texture);
+	mlx_delete_texture(texture);
+	if (!image)
+		return (NULL);
+	if (!mlx_resize_image(image, width, height))
+		return (NULL);
+	return (image);
 }
 
 void	init_resources(t_game *game, t_textures *resources)
 {
-	mlx_texture_t	*tmp;
-
-	tmp = mlx_load_png("textures/wall.png");
-	resources->wall = mlx_new_image(game->mlx, 1, 1);
-	resources->wall = mlx_texture_to_image(game->mlx, tmp);
-	tmp = mlx_load_png("textures/wall.png");
-	resources->floor = mlx_new_image(game->mlx, 1, 1);
-	resources->floor = mlx_texture_to_image(game->mlx, tmp);
-	tmp = mlx_load_png("textures/wall.png");
-	resources->item = mlx_new_image(game->mlx, 1, 1);
-	resources->item = mlx_texture_to_image(game->mlx, tmp);
-	tmp = mlx_load_png("textures/wall.png");
-	resources->player = mlx_new_image(game->mlx, 1, 1);
-	resources->player = mlx_texture_to_image(game->mlx, tmp);
+	resources->wall = add_image(game->mlx, "textures/wall.png", PIXEL_SIZE, PIXEL_SIZE);
+	resources->floor = add_image(game->mlx, "textures/floor.png", PIXEL_SIZE, PIXEL_SIZE);
+	resources->item = add_image(game->mlx, "textures/item.png", PIXEL_SIZE, PIXEL_SIZE);
+	// resources->player = load_resized_image(game->mlx, "textures/player.png", 50, 50);
 }
 
 void	run(t_game *game)
 {
 	t_textures	resources;
 
-	game->mlx = mlx_init(game->width * 50, game->height * 50, "so_long", false); // initialize window
+	game->mlx = mlx_init(PIXEL_SIZE * game->width, PIXEL_SIZE * game->height, "so_long", false);
 	if (!game->mlx)
 		free_exit(game, (char *)mlx_strerror(mlx_errno), EXIT_FAILURE); // the malloc can fail
 	init_resources(game, &resources);
-	draw_map(game);
+	draw_map(game, &resources);
 	mlx_loop_hook(game->mlx, keys, game);
 	mlx_loop(game->mlx); // main window loop
 

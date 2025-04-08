@@ -21,7 +21,7 @@
 # include <limits.h>
 # include <stdbool.h>
 # include <stdio.h>
-# define PP_CHAR sizeof(char**)
+# define PIXEL_SIZE 35
 
 
 typedef struct s_stats
