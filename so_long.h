@@ -23,7 +23,6 @@
 # include <stdio.h>
 # define PIXEL_SIZE 35
 
-
 typedef struct s_stats
 {
 	bool	start;
@@ -49,7 +48,7 @@ typedef struct s_textures
 	mlx_image_t		*exit_a;
 	mlx_image_t		*exit_b;
 	mlx_image_t		*player;
-} t_textures;
+}	t_textures;
 
 // error.c
 void	free_exit(t_game *game, char *error_msg, int status);

@@ -17,7 +17,7 @@ bool	check_dimensions(t_game *game)
 	int	i;
 
 	i = 0;
-	if (game->height < 3 || game->width < 3) 
+	if (game->height < 3 || game->width < 3)
 		free_exit(game, "Incorrect dimensions", EXIT_FAILURE);
 	while (game->map[i])
 	{
@@ -60,9 +60,7 @@ void	check_map(t_game *game)
 		while (j < game->width - 1)
 		{
 			if (game->map[i][j] == 'C')
-			{
 				game->stats.items += 1;
-			}
 			else if (game->map[i][j] == 'P' && game->stats.start == false)
 			{
 				game->stats.start = true;
@@ -99,7 +97,6 @@ char	**copy_map(t_game *game)
 			free(tmp);
 			free_exit(game, "malloc failure", EXIT_FAILURE);
 		}
-		
 		i++;
 	}
 	tmp[i] = NULL;
