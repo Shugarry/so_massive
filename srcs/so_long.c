@@ -67,7 +67,7 @@ static void	keys(void *param)
 		free_exit(game, "Finished succesfully", EXIT_SUCCESS);
 }
 
-void	draw_map(t_game *game, t_textures *resources)
+void	draw_map(t_game *game, t_textures *rsrc)
 {
 	int	i;
 	int	j;
@@ -79,20 +79,19 @@ void	draw_map(t_game *game, t_textures *resources)
 		j = 0;
 		while (j < game->width)
 		{
-			mlx_image_to_window(game->mlx, resources->floor, PIXEL_SIZE * j, PIXEL_SIZE * i);
+			mlx_image_to_window(game->mlx, rsrc->floor, PS * j, PS * i);
 			if (game->map[i][j] == '1')
-				mlx_image_to_window(game->mlx, resources->wall, PIXEL_SIZE * j, PIXEL_SIZE * i);
+				mlx_image_to_window(game->mlx, rsrc->wall, 	PS * j, PS * i);
 			if (game->map[i][j] == 'C')
-				mlx_image_to_window(game->mlx, resources->item, PIXEL_SIZE * j, PIXEL_SIZE * i);
+				mlx_image_to_window(game->mlx, rsrc->item, PS * j, PS * i);
 			if (game->map[i][j] == 'P')
-				mlx_image_to_window(game->mlx, resources->player, PIXEL_SIZE * j, PIXEL_SIZE * i);
+				mlx_image_to_window(game->mlx, rsrc->player, PS * j, PS * i);
 			if (game->map[i][j] == 'E')
-				mlx_image_to_window(game->mlx, resources->exit_a, PIXEL_SIZE * j, PIXEL_SIZE * i);
+				mlx_image_to_window(game->mlx, rsrc->exit_a, PS * j, PS * i);
 			j++;
 		}
 		i++;
 	}
-	mlx_delete_image(game->mlx, resources->floor);
 }
 
 mlx_image_t	*add_image(mlx_t *mlx, const char *path, uint32_t width, uint32_t height)
@@ -112,25 +111,26 @@ mlx_image_t	*add_image(mlx_t *mlx, const char *path, uint32_t width, uint32_t he
 	return (image);
 }
 
-void	init_resources(t_game *game, t_textures *resources)
+t_textures	init_resources(t_game *game)
 {
-	resources->wall = add_image(game->mlx, "textures/wall.png", PIXEL_SIZE, PIXEL_SIZE);
-	resources->floor = add_image(game->mlx, "textures/floor.png", PIXEL_SIZE, PIXEL_SIZE);
-	resources->item = add_image(game->mlx, "textures/item.png", PIXEL_SIZE, PIXEL_SIZE);
-	resources->player = add_image(game->mlx, "textures/player.png", PIXEL_SIZE, PIXEL_SIZE);
-	resources->exit_a = add_image(game->mlx, "textures/exit_a.png", PIXEL_SIZE, PIXEL_SIZE);
-	resources->exit_b = add_image(game->mlx, "textures/exit_b.png", PIXEL_SIZE, PIXEL_SIZE);
+	t_textures resources;
+
+	resources.wall = add_image(game->mlx, "textures/wall.png", PS, PS);
+	resources.floor = add_image(game->mlx, "textures/floor.png", PS, PS);
+	resources.item = add_image(game->mlx, "textures/item.png", PS, PS);
+	resources.player = add_image(game->mlx, "textures/player.png", PS, PS);
+	resources.exit_a = add_image(game->mlx, "textures/exit_a.png", PS, PS);
+	resources.exit_b = add_image(game->mlx, "textures/exit_b.png", PS, PS);
+	return (resources);
 }
 
 void	run(t_game *game)
 {
-	t_textures	resources;
-
-	game->mlx = mlx_init(PIXEL_SIZE * game->width, PIXEL_SIZE * game->height, "so_long", false);
+	game->mlx = mlx_init(PS * game->width, PS * game->height, "so_long", false);
 	if (!game->mlx)
 		free_exit(game, (char *)mlx_strerror(mlx_errno), EXIT_FAILURE);
-	init_resources(game, &resources);
-	draw_map(game, &resources);
+	game->resources = init_resources(game);
+	draw_map(game, &game->resources);
 	mlx_loop_hook(game->mlx, keys, game);
 	mlx_loop(game->mlx);
 

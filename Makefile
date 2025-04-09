@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-COMPILE = cc -Wall -Wextra -Werror -fsanitize=address
+COMPILE = cc -Wall -Wextra -Werror -fsanitize=address # -g
 
 NAME = so_long
 

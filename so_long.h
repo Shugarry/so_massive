@@ -21,7 +21,7 @@
 # include <limits.h>
 # include <stdbool.h>
 # include <stdio.h>
-# define PIXEL_SIZE 35
+# define PS 40
 
 typedef struct s_stats
 {
@@ -30,15 +30,6 @@ typedef struct s_stats
 	int		items;
 	int		start_pos[2];
 }	t_stats;
-
-typedef struct s_game
-{
-	char			**map;
-	mlx_t			*mlx;
-	int				width;
-	int				height;
-	t_stats			stats;
-}	t_game;
 
 typedef struct s_textures
 {
@@ -49,6 +40,17 @@ typedef struct s_textures
 	mlx_image_t		*exit_b;
 	mlx_image_t		*player;
 }	t_textures;
+
+typedef struct s_game
+{
+	char			**map;
+	mlx_t			*mlx;
+	int				width;
+	int				height;
+	t_stats			stats;
+	t_textures		resources;
+}	t_game;
+
 
 // error.c
 void	free_exit(t_game *game, char *error_msg, int status);
