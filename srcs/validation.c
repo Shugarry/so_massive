@@ -64,8 +64,9 @@ void	check_map(t_game *game)
 			else if (game->map[i][j] == 'P' && game->stats.start == false)
 			{
 				game->stats.start = true;
-				game->stats.start_pos[0] = i;
-				game->stats.start_pos[1] = j;
+				game->stats.pos.x = j;
+				game->stats.pos.y = i;
+				game->map[i][j] = '0';
 			}
 			else if (game->map[i][j] == 'E' && game->stats.exit == false)
 				game->stats.exit = true;

@@ -72,7 +72,7 @@ void	init_game(t_game *game)
 	game->stats.start = false;
 	game->stats.exit = false;
 	game->stats.items = 0;
-	game->stats.start_pos[0] = 0;
-	game->stats.start_pos[1] = 0;
+	game->stats.pos.x = 0;
+	game->stats.pos.y = 0;
 	game->mlx = NULL;
 }

@@ -23,12 +23,18 @@
 # include <stdio.h>
 # define PS 40
 
+typedef struct s_pos
+{
+	int x;
+	int y;
+}	t_pos;
+
 typedef struct s_stats
 {
 	bool	start;
 	bool	exit;
 	int		items;
-	int		start_pos[2];
+	t_pos	pos;
 }	t_stats;
 
 typedef struct s_textures
