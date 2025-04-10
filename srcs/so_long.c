@@ -30,8 +30,8 @@ void	create_check_map(t_game *game, int *fd)
 	flood(game->stats.pos.y, game->stats.pos.x, cpy);
 	while (++i < game->height)
 	{
-		if (ft_strchr(cpy[i], 'E') || ft_strchr(cpy[i], 'C') ||
-			ft_strchr(cpy[i], 'P'))
+		if (ft_strchr(cpy[i], 'E') || ft_strchr(cpy[i], 'C')
+			|| ft_strchr(cpy[i], 'P'))
 			valid = false;
 		free(cpy[i]);
 	}
