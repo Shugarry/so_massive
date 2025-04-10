@@ -21,7 +21,7 @@
 # include <limits.h>
 # include <stdbool.h>
 # include <stdio.h>
-# define PS 40
+# define PS 30
 
 typedef struct s_pos
 {

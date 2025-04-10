@@ -6,7 +6,7 @@
 /*   By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:56:44 by frey-gal          #+#    #+#             */
-/*   Updated: 2025/04/10 01:30:49 by frey-gal         ###   ########.fr       */
+/*   Updated: 2025/04/10 02:30:23 by frey-gal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,28 @@ void	create_check_map(t_game *game, int *fd)
 {
 	char	**cpy;
 	int		i;
+	bool	valid;
 
-	i = 0;
+	i = -1;
+	valid = true;
 	parse_map(game, *fd);
 	check_borders(game);
 	check_dimensions(game);
 	check_map(game);
+	if (!game->stats.start || !game->stats.exit || !game->stats.items)
+		free_exit(game, "Invalid map", EXIT_FAILURE);
 	cpy = copy_map(game);
 	flood(game->stats.pos.y, game->stats.pos.x, cpy);
-	while (i < game->height)
+	while (++i < game->height)
 	{
+		if (ft_strchr(cpy[i], 'E') || ft_strchr(cpy[i], 'C') ||
+			ft_strchr(cpy[i], 'P'))
+			valid = false;
 		free(cpy[i]);
-		i++;
 	}
 	free(cpy);
+	if (!valid)
+		free_exit(game, "Invalid map", EXIT_FAILURE);
 }
 
 void	draw_map(t_game *game, t_textures *rsrcs)
