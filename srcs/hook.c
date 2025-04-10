@@ -97,5 +97,5 @@ void	keys(mlx_key_data_t keydata, void *param)
 	else if (keydata.key == MLX_KEY_D && keydata.action == MLX_PRESS)
 		try_move(game, &game->stats.pos, 'D');
 	else if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		free_exit(game, "Finished succesfully", EXIT_SUCCESS);
+		free_exit(game, "MLX exited succesfully!", EXIT_SUCCESS);
 }

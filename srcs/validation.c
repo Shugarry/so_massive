@@ -18,11 +18,11 @@ bool	check_dimensions(t_game *game)
 
 	i = 0;
 	if (game->height < 3 || game->width < 3)
-		free_exit(game, "Incorrect dimensions", EXIT_FAILURE);
+		free_exit(game, "Invalid dimensions", EXIT_FAILURE);
 	while (game->map[i])
 	{
 		if (game->width != (int)ft_strlen(game->map[i]))
-			free_exit(game, "Incorrect dimensions", EXIT_FAILURE);
+			free_exit(game, "Invalid dimensions", EXIT_FAILURE);
 		i++;
 	}
 	return (true);
@@ -71,7 +71,7 @@ void	check_map(t_game *game)
 			else if (game->map[i][j] == 'E' && game->stats.exit == false)
 				game->stats.exit = true;
 			else if (game->map[i][j] != '0' && game->map[i][j] != '1')
-				free_exit(game, "Map is invalid", EXIT_FAILURE);
+				free_exit(game, "Invalid components", EXIT_FAILURE);
 		}
 	}
 }

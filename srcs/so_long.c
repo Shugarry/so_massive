@@ -21,11 +21,11 @@ void	create_check_map(t_game *game, int *fd)
 	i = -1;
 	valid = true;
 	parse_map(game, *fd);
-	check_borders(game);
 	check_dimensions(game);
+	check_borders(game);
 	check_map(game);
 	if (!game->stats.start || !game->stats.exit || !game->stats.items)
-		free_exit(game, "Invalid map", EXIT_FAILURE);
+		free_exit(game, "Invalid components", EXIT_FAILURE);
 	cpy = copy_map(game);
 	flood(game->stats.pos.y, game->stats.pos.x, cpy);
 	while (++i < game->height)
@@ -37,7 +37,7 @@ void	create_check_map(t_game *game, int *fd)
 	}
 	free(cpy);
 	if (!valid)
-		free_exit(game, "Invalid map", EXIT_FAILURE);
+		free_exit(game, "Invalid map characters", EXIT_FAILURE);
 }
 
 void	draw_map(t_game *game, t_textures *rsrcs)
@@ -100,8 +100,12 @@ int	main(int ac, char **av)
 
 	init_game(&game);
 	if (ac != 2 || !is_file_valid(&game, av[1], &fd))
-		free_exit(&game, "Usage: ./so_long <mapfile.ber>", EXIT_FAILURE);
+	{
+		free_exit(&game,
+			"Invalid or empty file. Usage: ./so_long <mapfile.ber>",
+			EXIT_FAILURE);
+	}
 	create_check_map(&game, &fd);
 	run(&game);
-	free_exit(&game, "MLX crashed unexpectedly...", EXIT_FAILURE);
+	free_exit(&game, "MLX exited succesfully!", EXIT_FAILURE);
 }

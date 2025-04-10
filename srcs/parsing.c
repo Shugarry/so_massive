@@ -44,23 +44,23 @@ bool	is_file_valid(t_game *game, const char *file, int *fd)
 	valid = false;
 	*fd = open(file, O_RDONLY);
 	dot = ft_strrchr(file, '.');
-	if (*fd != -1)
-		valid = (dot && ft_strncmp(dot, ".ber", 4) == 0);
-	if (valid)
+	if (*fd != -1 && dot && ft_strncmp(dot, ".ber", 4) == 0)
 	{
+		valid = true;
 		line = get_next_line(*fd);
+		if (!line)
+			valid = false;
 		while (line)
 		{
 			game->height++;
 			free(line);
 			line = get_next_line(*fd);
 		}
-	}
-	if (*fd != -1)
 		close(*fd);
-	*fd = open(file, O_RDONLY);
-	if (*fd < 0)
-		valid = false;
+		*fd = open(file, O_RDONLY);
+		if (*fd < 0)
+			valid = false;
+	}
 	return (valid);
 }
 
