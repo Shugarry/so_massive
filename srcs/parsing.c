@@ -6,7 +6,7 @@
 /*   By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:24:41 by frey-gal          #+#    #+#             */
-/*   Updated: 2025/04/01 20:41:45 by frey-gal         ###   ########.fr       */
+/*   Updated: 2025/04/10 01:50:19 by frey-gal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,5 @@ void	init_game(t_game *game)
 	game->stats.pos.x = 0;
 	game->stats.pos.y = 0;
 	game->mlx = NULL;
+	game->stats.move_num = 0;
 }

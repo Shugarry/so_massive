@@ -6,7 +6,7 @@
 /*   By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:26:02 by frey-gal          #+#    #+#             */
-/*   Updated: 2025/04/01 20:45:34 by frey-gal         ###   ########.fr       */
+/*   Updated: 2025/04/10 01:29:46 by frey-gal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ void	check_map(t_game *game)
 	int	i;
 	int	j;
 
-	i = 0;
-	while (i < game->height - 1)
+	i = -1;
+	while (++i < game->height - 1)
 	{
-		j = 0;
-		while (j < game->width - 1)
+		j = -1;
+		while (++j < game->width - 1)
 		{
 			if (game->map[i][j] == 'C')
 				game->stats.items += 1;
@@ -72,9 +72,7 @@ void	check_map(t_game *game)
 				game->stats.exit = true;
 			else if (game->map[i][j] != '0' && game->map[i][j] != '1')
 				free_exit(game, "Map is invalid", EXIT_FAILURE);
-			j++;
 		}
-		i++;
 	}
 }
 

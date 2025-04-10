@@ -6,11 +6,11 @@
 #    By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/01 11:57:09 by frey-gal          #+#    #+#              #
-#    Updated: 2025/04/02 19:00:57 by frey-gal         ###   ########.fr        #
+#    Updated: 2025/04/10 01:39:49 by frey-gal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-COMPILE = cc -fsanitize=address#-Wall -Wextra -Werror  # -g
+COMPILE = cc -Wall -Wextra -Werror -fsanitize=address # -g
 
 NAME = so_long
 
@@ -19,6 +19,7 @@ srcs/so_long.c \
 srcs/error.c \
 srcs/parsing.c \
 srcs/validation.c \
+srcs/hook.c
 
 OBJ = $(SRC:.c=.o)
 
