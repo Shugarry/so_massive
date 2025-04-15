@@ -44,7 +44,7 @@ bool	is_file_valid(t_game *game, const char *file, int *fd)
 	valid = false;
 	*fd = open(file, O_RDONLY);
 	dot = ft_strrchr(file, '.');
-	if (*fd != -1 && dot && ft_strncmp(dot, ".ber", 4) == 0)
+	if (*fd != -1 && dot && ft_strncmp(dot, ".ber\0", 5) == 0)
 	{
 		valid = true;
 		line = get_next_line(*fd);

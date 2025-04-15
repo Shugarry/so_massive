@@ -107,5 +107,5 @@ int	main(int ac, char **av)
 	}
 	create_check_map(&game, &fd);
 	run(&game);
-	free_exit(&game, "MLX exited succesfully!", EXIT_FAILURE);
+	free_exit(&game, "MLX exited succesfully!", EXIT_SUCCESS);
 }
