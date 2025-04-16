@@ -28,10 +28,10 @@ bool	check_dimensions(t_game *game)
 	return (true);
 }
 
-void check_borders(t_game *game)
+void	check_borders(t_game *game)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	j = 0;
 	while (j < game->width)
@@ -40,7 +40,6 @@ void check_borders(t_game *game)
 			free_exit(game, "Walls don't cover map", EXIT_FAILURE);
 		j++;
 	}
-
 	i = 0;
 	while (i < game->height)
 	{
@@ -50,10 +49,10 @@ void check_borders(t_game *game)
 	}
 }
 
-void check_map(t_game *game)
+void	check_map(t_game *game)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = -1;
 	while (++i < game->height)
@@ -65,11 +64,11 @@ void check_map(t_game *game)
 				game->stats.items += 1;
 			else if (game->map[i][j] == 'P' && game->stats.start == false)
 			{
-			game->stats.start = true;
-			game->stats.pos.x = j;
-			game->stats.pos.y = i;
-			game->map[i][j] = '0';
-		}
+				game->stats.start = true;
+				game->stats.pos.x = j;
+				game->stats.pos.y = i;
+				game->map[i][j] = '0';
+			}
 			else if (game->map[i][j] == 'E' && game->stats.exit == false)
 				game->stats.exit = true;
 			else if (game->map[i][j] != '0' && game->map[i][j] != '1')
