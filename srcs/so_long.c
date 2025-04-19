@@ -74,11 +74,23 @@ t_textures	init_resources(t_game *game)
 	t_textures	resources;
 
 	resources.wall = add_image(game->mlx, "textures/wall.png", PS, PS);
+	if (resources.wall == NULL)
+		free_exit(game, "Texture failure", EXIT_FAILURE);
 	resources.floor = add_image(game->mlx, "textures/floor.png", PS, PS);
+	if (resources.floor == NULL)
+		free_exit(game, "Texture failure", EXIT_FAILURE);
 	resources.item = add_image(game->mlx, "textures/item.png", PS, PS);
+	if (resources.item == NULL)
+		free_exit(game, "Texture failure", EXIT_FAILURE);
 	resources.player = add_image(game->mlx, "textures/player.png", PS, PS);
+	if (resources.player == NULL)
+		free_exit(game, "Texture failure", EXIT_FAILURE);
 	resources.exit_a = add_image(game->mlx, "textures/exit_a.png", PS, PS);
+	if (resources.exit_a == NULL)
+		free_exit(game, "Texture failure", EXIT_FAILURE);
 	resources.exit_b = add_image(game->mlx, "textures/exit_b.png", PS, PS);
+	if (resources.exit_b == NULL)
+		free_exit(game, "Texture failure", EXIT_FAILURE);
 	return (resources);
 }
 
