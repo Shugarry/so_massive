@@ -37,7 +37,7 @@ void	create_check_map(t_game *game, int *fd)
 	}
 	free(cpy);
 	if (!valid)
-		free_exit(game, "Invalid map characters", EXIT_FAILURE);
+		free_exit(game, "Unsolvable map or invalid char placement", EXIT_FAILURE);
 }
 
 void	draw_map(t_game *game, t_textures *rsrcs)
