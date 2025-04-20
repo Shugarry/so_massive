@@ -5,39 +5,45 @@
 #                                                     +:+ +:+         +:+      #
 #    By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/04/01 11:57:09 by frey-gal          #+#    #+#              #
-#    Updated: 2025/04/10 15:26:48 by frey-gal         ###   ########.fr        #
+#    Created: 2025/04/20 02:23:03 by frey-gal          #+#    #+#              #
+#    Updated: 2025/04/20 02:27:49 by frey-gal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-COMPILE = cc -Wall -Wextra -Werror -fsanitize=address # -g
+# ================================== VARS ==================================== #
 
-NAME = so_long
+NAME		= so_long
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror -fsanitize=address #-g
 
-SRC = \
-srcs/so_long.c \
-srcs/error.c \
-srcs/parsing.c \
-srcs/validation.c \
-srcs/hook.c
+SRC			= srcs/so_long.c \
+            srcs/error.c \
+            srcs/parsing.c \
+            srcs/validation.c \
+            srcs/hook.c
 
-OBJ = $(SRC:.c=.o)
+OBJ			= $(SRC:.c=.o)
 
-#==================================MINILIBX====================================#
+INCLUDES 	= -Ilibft -I./MLX42/include -I.
 
-MLX42_DIR = ./MLX42
+HDR			= so_long.h \
 
-MLX42 = build/libmlx42.a
+MLX42_DIR	= MLX42
+MLX42		= build/libmlx42.a
+MLXFLAGS	= -ldl -lglfw -pthread -lm
 
-MLXFLAGS = -I ./MLX42/include -ldl -lglfw -pthread -lm
+# ================================== LIBFT =================================== #
 
-#==================================MINILIBX====================================#
+LIBFT_DIR	= libft
+LIBFT		= $(LIBFT_DIR)/libft.a
 
+LIB_HDR		= \
+libft/libft.h \
+libft/get_next_line.h \
+libft/get_next_line_bonus.h \
+libft/ft_printf.h
 
-#=======================TO MAKE SURE MAKEFILE RECOMPILES=======================#
-
-# LIBFT files dependencies
-LIB_DEP = \
+LIB_SRC		= \
 libft/ft_atoi.c \
 libft/ft_bzero.c \
 libft/ft_calloc.c \
@@ -96,32 +102,40 @@ libft/get_next_line.h \
 libft/get_next_line_bonus.h \
 libft/ft_printf.h \
 
-OBJ_DEP = $(LIB_DEP:.c=.o) #Dependencies for the objects
+LIB_DEP = $(LIB_SRC) $(LIB_HDR) libft/Makefile 
 
-ALL_DEP = Makefile so_long.h $(OBJ) $(LIB_DEP) $(OBJ_DEP) libft/Makefile \
-		 
-#=======================TO MAKE SURE MAKEFILE RECOMPILES=======================#
+# ================================== RULES =================================== #
 
 all: $(NAME)
 
-$(NAME): $(ALL_DEP) $(MLX42)
-	@make all -C libft
-	@$(COMPILE) $(SRC) ./libft/libft.a $(MLX42) $(MLXFLAGS) -o $(NAME)
+$(NAME): $(OBJ) $(LIBFT) $(MLX42)
+	@echo "\n==> Linking $(NAME)..."
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX42) $(MLXFLAGS) -o $(NAME)
+
+srcs/%.o: srcs/%.c $(HDR) $(LIB_HDR) Makefile
+	@echo " -> Compiling $<"
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(LIBFT): $(LIB_DEP)
+	@echo "\n==> Building Libft..."
+	@$(MAKE) -C $(LIBFT_DIR)
 
 $(MLX42):
+	@echo "\n==> Building MLX..."
 	@cmake $(MLX42_DIR) -B build
 	@cmake --build build -j4
 
 clean:
-	@make clean -C libft
+	@echo "\n==> Cleaning project..."
+	@$(MAKE) -s clean -C $(LIBFT_DIR)
 	@rm -f $(OBJ)
 	@rm -rf build
-	@echo 'all clean!! :)'
 
 fclean: clean
-	@make fclean -C libft
+	@echo "\n==> Full clean..."
+	@$(MAKE) -s fclean -C $(LIBFT_DIR)
 	@rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all re clean fclean
+.PHONY: all clean fclean re

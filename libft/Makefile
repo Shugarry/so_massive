@@ -1,10 +1,22 @@
-NAME = libft.a
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/04/20 01:47:03 by frey-gal          #+#    #+#              #
+#    Updated: 2025/04/20 02:32:17 by frey-gal         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-COMPILE = cc -Wall -Wextra -Werror -c
+# ================================== VARS ==================================== #
 
-HEADERS = libft.h get_next_line.h get_next_line_bonus.h ft_printf.h
+NAME	= libft.a
+CC		= cc
+CFLAGS	= -Wall -Wextra -Werror
 
-SRC = \
+SRC =	\
 ft_atoi.c \
 ft_bzero.c \
 ft_calloc.c \
@@ -46,6 +58,9 @@ print_ptr.c \
 print_str.c \
 print_char.c \
 get_next_line.c \
+get_next_line_bonus.c \
+get_next_line_utils_bonus.c \
+get_next_line_utils.c \
 ft_lstnew_bonus.c \
 ft_lstadd_front_bonus.c \
 ft_lstsize_bonus.c \
@@ -55,26 +70,35 @@ ft_lstdelone_bonus.c \
 ft_lstclear_bonus.c \
 ft_lstiter_bonus.c \
 ft_lstmap_bonus.c \
-get_next_line_bonus.c \
-get_next_line_utils_bonus.c \
-get_next_line_utils.c
 
-OBJ = $(SRC:.c=.o)
+OBJ		= $(SRC:.c=.o)
 
-LIB = ar rc $(NAME)
+HEADERS	= \
+libft.h \
+get_next_line.h \
+get_next_line_bonus.h \
+ft_printf.h
+
+# ================================== RULES =================================== #
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(HEADERS) Makefile
-	@$(COMPILE) $(SRC)
-	@$(LIB) $(OBJ)
+$(NAME): $(OBJ) Makefile
+	@echo "\n -> Making Libft library..."
+	@ar rcs $@ $(OBJ)
+
+%.o: %.c $(HEADERS) Makefile
+	@echo "    * libft: Compiling $<"
+	@$(CC) $(CFLAGS) -I. -c $< -o $@
 
 clean:
+	@echo "\n -> Cleaning libft..."
 	@rm -f $(OBJ)
 
 fclean: clean
+	@echo "\n -> Full libft clean..."
 	@rm -f $(NAME)
 
 re: fclean all
-	
-.PHONY: all re clean fclean
+
+.PHONY: all clean fclean re
